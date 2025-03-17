@@ -8,7 +8,7 @@
 
 using namespace std;
 vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& previous){
-    int numVertices = G.size();
+    int numVertices = G.numVertices;
     vector<int> distances(numVertices, INF);
     vector<bool> visited(numVertices, false);
 
@@ -18,9 +18,10 @@ vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& prev
     minHeap.push({source, 0});
     while(!minHeap.empty()){
         int u = minHeap.top().second;
+        minHeap.pop();
         if(visited[u]) continue;
         visited[u] = true;
-        for(Edge edge:G[u]){
+        for(Edge& edge : G[u]){
             int v = edge.dst;
             int weight = edge.weight;
             if(!visited[v] && distances[u] + weight < distances[v]){
@@ -50,5 +51,6 @@ vector<int> extract_shortest_path(const vector<int>& distances, const vector<int
 void print_path(const vector<int>& v, int total){
     for(int i : v)
         std::cout << i << " ";
+    std::cout << std::endl;
     std::cout << "Total cost is " << total << std::endl;
 }
